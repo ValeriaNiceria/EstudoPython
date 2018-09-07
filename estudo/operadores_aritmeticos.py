@@ -4,7 +4,7 @@ n1 = int(input('Digite um número: '))
 n2 = int(input('Digite outro número: '))
 
 adicao = n1 + n2
-print('Adição = {}'.format(adicao))
+print('Adição = {}'.format(adicao), end=' ')
 
 subtracao = n1 - n2
 print('Subtração = {}'.format(subtracao))
@@ -13,10 +13,10 @@ multiplicacao = n1 * n2
 print('multiplicação = {}'.format(multiplicacao))
 
 divisao = n1 / n2
-print('Divisão = {}'.format(divisao))
+print('Divisão = {:.3f}'.format(divisao))
 
 potencia = n1 ** n2
-print('Potência = {}'.format(potencia))
+print('Potência = \n {}'.format(potencia))
 
 divisao_inteira = n1 // n2
 print('Divisão Inteira = {}'.format(divisao_inteira))
