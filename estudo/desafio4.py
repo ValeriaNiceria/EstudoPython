@@ -1,5 +1,8 @@
-# Faça um programa que leia algo pelo teclado e mostre na tela o seu tipo primitivo e todas as informações possíveis sobre ele.
-
+# Anaisando variáveis
+'''
+Faça um programa que leia algo pelo teclado e mostre na tela
+o seu tipo primitivo e todas as informações possíveis sobre ele.
+'''
 variavel = input('Digite algo: ')
 print('O tipo primitivo desse valor é {}'.format(type(variavel)))
 print('Só tem espaços? ', variavel.isspace())
