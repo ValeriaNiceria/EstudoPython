@@ -13,12 +13,12 @@ tamanhoLista = len(valores)
 mediaGeo = produtoLista ** (1 / tamanhoLista)
 print('Media Geometrica: {:.2f}'.format(mediaGeo))
 
-
 # Media Harmonica
 mediaHarm = stats.harmonic_mean(valores)
 print('Media Harmonica: {:.2f}'.format(mediaHarm))
 
 # Moda
+# stats.mode(valores)
 idades = [10, 20, 12, 4, 54, 12, 10]
 # Verificando a quantidade de vezes que cada elemento do conjunto aparece
 idadeCount = [[x, idades.count(x)] for x in set(idades)]
@@ -27,4 +27,9 @@ print('idadeCount:', idadeCount)
 moda = [x for x in set(idades) if idades.count(x) > 1]
 print('Moda:', moda)
 
+
+# Mediana
+lista = [4, 5, 20, 1, 6, 12, 8, 14]
+mediana = stats.median(lista)
+print('Mediana:', mediana)
 
