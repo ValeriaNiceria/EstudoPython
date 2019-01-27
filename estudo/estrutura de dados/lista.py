@@ -41,3 +41,6 @@ for imposto in impostos:
     print(imposto)
 
     
+# Percorrendo intervalos de zero até N com range()
+for i in range(5):
+    print(i)
