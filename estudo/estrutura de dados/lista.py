@@ -18,3 +18,11 @@ lista[3] = 'Baixos'
 lista
 lista[0:2] = ["Impostos", "Salarios"]
 lista
+
+# ifs e listas
+# lista vazia é igual a falso
+lista1 = []
+if lista1:
+    print('Nunca sou executado')
+else:
+    print('Sempre sou executado')
