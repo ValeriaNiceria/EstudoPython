@@ -26,3 +26,8 @@ if lista1:
     print('Nunca sou executado')
 else:
     print('Sempre sou executado')
+
+# Loop com For e listas
+impostos = ['MEI', 'Simples']
+for imposto in impostos:
+    print(imposto)
