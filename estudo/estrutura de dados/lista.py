@@ -39,8 +39,3 @@ for imposto in impostos:
     if imposto.startswith('S'):
         continue
     print(imposto)
-
-    
-# Percorrendo intervalos de zero até N com range()
-for i in range(5):
-    print(i)
