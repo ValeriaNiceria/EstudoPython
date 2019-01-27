@@ -3,7 +3,7 @@
 * Exemplos de listas
 - [1, 2, 3, 4, 5]
 - ['salario', 'imposto']
-- [1, 'salrio']
+- [1, 'salario']
 - [[1, 2, 3], 'salario', 10]
 """
 lista = ['imposto', 'salario', 'altos', 'baixos']
@@ -31,3 +31,13 @@ else:
 impostos = ['MEI', 'Simples']
 for imposto in impostos:
     print(imposto)
+
+# O loop pode ser parado pelo 'break'
+# 'continue' faz com que a execução do bloco vá direto para a próxima interação
+impostos = ['MEI', 'Simples']
+for imposto in impostos:
+    if imposto.startswith('S'):
+        continue
+    print(imposto)
+
+    
