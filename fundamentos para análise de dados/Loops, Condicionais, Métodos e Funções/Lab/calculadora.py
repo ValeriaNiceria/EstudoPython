@@ -17,15 +17,15 @@ num2 = int(input('Digite o segundo número: '))
 
 def calculator(opNum, num1, num2):
     if opNum == 1 :
-        print(str(num1) + ' + ' + str(num2) + ' = ' + str(num1 + num2))
+        print('{} + {} = {}'.format(num1, num2, num1 + num2))
     elif opNum == 2:
-        print(str(num1) + ' - ' + str(num2) + ' = ' + str(num1 - num2))
+        print('{} - {} = {}'.format(num1, num2, num1 - num2))
     elif opNum == 3:
-        print(str(num1) + ' * ' + str(num2) + ' = ' + str(num1 * num2))
+        print('{} * {} = {}'.format(num1, num2, num1 * num2))
     elif opNum == 4:
-        print(str(num1) + ' / ' + str(num2) + ' = ' + str(num1 / num2))
+        print('{} / {} = {}'.format(num1, num2, num1 / num2))
     else:
-        print('Opção inválida!')
+        print('\nOpção inválida!')
     
     
 # Chamando a função
