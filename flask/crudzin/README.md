@@ -26,8 +26,30 @@ touch app/__init__.py
 ## Como rodar um projeto flask
 ```sh
 export FLASK_APP=app
+export FLASK_ENV=Development
+export FLASK_DEBUG=true
 ```
 
 ```sh
 flask run
+```
+
+```sh
+pipenv install -d requests ipdb
+```
+
+```sh
+ipython
+
+from requests import get
+
+get('http://127.0.0.1:5000/')
+```
+
+```sh
+
+```
+
+```sh
+
 ```
