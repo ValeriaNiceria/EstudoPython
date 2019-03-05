@@ -5,6 +5,6 @@
 ## Gerenciando dependências e ambientes python com pipenv
 
 ### Instalando o pipenv
-- verificando se o **pip** está instalado: `$ pip3 -V`
-- instalando o **pip** no python 3: `$ sudo apt install python3-pip`
-- instalando o pipenv: `$ pip3 install pipenv`
+- verificando se o **pip** está instalado: `$ pip -V`
+- instalando o **pip** no python 3: `$ sudo apt install python-pip`
+- instalando o pipenv: `$ pip install pipenv`
