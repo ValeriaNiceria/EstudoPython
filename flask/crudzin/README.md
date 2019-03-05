@@ -1,11 +1,27 @@
 # Flask
 ![alt text](https://cdn-images-1.medium.com/max/438/1*0G5zu7CnXdMT9pGbYUTQLQ.png)
 
+## Gerenciando dependências e ambientes python com pipenv
+
+### Instalando o pipenv
+- verificando se o **pip** está instalado: `$ pip -V`
+- instalando o **pip** no python 3: `$ sudo apt install python-pip`
+- instalando o pipenv: `$ pip install pipenv`
+
+## Criando o arquivo responsável pelo gerenciamento dos pacotes
+```sh
+pipenv --three
+```
+
 ## Instalando o flask
-`pipenv install flask`
+```sh
+pipenv install flask
+```
 
 ## Criando o arquivo
-`touch app/__init__.py`
+```sh
+touch app/__init__.py
+```
 
 ## Como rodar um projeto flask
 ```sh
