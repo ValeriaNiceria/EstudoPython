@@ -1,3 +1,3 @@
 # Python
 :snake: :bookmark_tabs: Learning Python
-![alt text](https://raw.githubusercontent.com/ValeriaNiceria/python/master/img/python.jpg)
+![alt text](https://www.thehansindia.com/assets/2019/01/Python_1614.jpg)
