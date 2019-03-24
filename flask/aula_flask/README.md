@@ -8,3 +8,21 @@
 
 ### Executar o arquivo 
 `python app.py`
+
+## Preparando o ambiente
+`pip install virtualenv`
+
+### Iniciando o  virtualenv
+`virtualenv -p python3 venv`
+
+### executando o ambiente virtual
+`. venv/bin/activate`
+
+### Verificar tudo o que está instalado no ambiente virtual
+`pip3 freeze`
+
+### Gravando o que estiver instalado em um arquivo
+`pip3 freeze > requirements.txt`
+
+### Instalando os pacotes salvos no aquivo requiments
+`pip3 install -r requirements.txt`
