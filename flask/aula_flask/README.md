@@ -32,7 +32,7 @@
 
 - models
 
--views: (é divida em duas pastas)
+- views: (é divida em duas pastas)
 	- static
 
 	- templates
