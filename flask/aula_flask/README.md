@@ -28,11 +28,11 @@
 `pip3 install -r requirements.txt`
 
 #### Ordenando as pastas (MVC)
-> - controllers
+- controllers
 
-> - models
+- models
 
-> views: (é divida em duas pastas)
->> - static
+-views: (é divida em duas pastas)
+	- static
 
->> - templates
+	- templates
