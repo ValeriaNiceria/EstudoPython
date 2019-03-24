@@ -9,7 +9,7 @@
 ### Executar o arquivo 
 `python app.py`
 
-## Preparando o ambiente
+## <div style="color: blue">Preparando o ambiente</div>
 `pip install virtualenv`
 
 ### Iniciando o  virtualenv
