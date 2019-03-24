@@ -26,3 +26,10 @@
 
 #### Instalando os pacotes salvos no aquivo requiments
 `pip3 install -r requirements.txt`
+
+#### Ordenando as pastas (MVC)
+> controllers
+> models
+> views: (é divida em duas pastas)
+>> static
+>> templates
