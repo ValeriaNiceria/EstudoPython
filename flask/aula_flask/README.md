@@ -29,10 +29,7 @@
 
 #### Ordenando as pastas (MVC)
 - controllers
-
 - models
-
 - views: (é divida em duas pastas)
 	- static
-
 	- templates
