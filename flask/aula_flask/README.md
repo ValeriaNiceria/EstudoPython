@@ -33,3 +33,7 @@
 - views: (é divida em duas pastas)
 	- static
 	- templates
+
+
+## Models
+<img src="img/diagrama.png" alt="Diagrama">
