@@ -37,3 +37,7 @@
 
 ## Models
 ![DER](img/diagrama.png)
+
+- Será utilizado: [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.3/) 
+- Istalando a ORM: `pip3 install flask-sqlalchemy`
+
