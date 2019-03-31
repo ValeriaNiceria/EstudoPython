@@ -31,6 +31,6 @@ pip3 freeze > requirements.txt
 ```
 
 #### Instalando os pacotes salvos no arquivo
-```sh
+```python
 pip3 install -r requirements.txt
 ```
