@@ -1,6 +1,6 @@
 # Web Scraping
 
-#### Iniciando o virtualenv
+#### Iniciando virtualenv
 ```sh
 virtualenv -p python3 venv
 ```
@@ -31,6 +31,12 @@ pip3 freeze > requirements.txt
 ```
 
 #### Instalando os pacotes salvos no arquivo
-```python
+```sh
 pip3 install -r requirements.txt
 ```
+
+### Instalando o pandas
+```sh
+pip3 install --upgrade pandas
+```
+
