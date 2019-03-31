@@ -22,3 +22,17 @@ pip install requests
 pip3 install beautifulsoup4
 ```
 
+### Instalando o lxml
+```sh
+pip install lxml
+```
+
+### Gravando o que estiver instalado em um arquivo
+```sh
+pip3 freeze > requirements.txt
+```
+
+### Instalando os pacotes salvos no arquivo
+```sh
+pip3 install -r requirements.txt
+```
