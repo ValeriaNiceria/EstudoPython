@@ -24,7 +24,7 @@
 #### Gravando o que estiver instalado em um arquivo
 `pip3 freeze > requirements.txt`
 
-#### Instalando os pacotes salvos no aquivo requiments
+#### Instalando os pacotes salvos no arquivo requiments
 `pip3 install -r requirements.txt`
 
 #### Ordenando as pastas (MVC)
