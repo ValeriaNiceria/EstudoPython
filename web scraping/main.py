@@ -14,6 +14,7 @@ config = {
   "storageBucket": "previdencia-projeto.appspot.com"
 }
 firebase = pyrebase.initialize_app(config)
+db = firebase.database()
 
 
 links_lista = []
@@ -36,29 +37,50 @@ for i in range(len(links_lista)):
 	url = "http://dadosabertos.dataprev.gov.br" + links_lista[i]
 	req = requests.get(url)
 
+	titulo = titulos_lista[i]
+	titulo = titulo.replace('.', '-')
+
 	soup = BeautifulSoup(req.text, 'lxml')
 
 	descricacao = soup.find(class_ = "embedded-content").p.text
 
 	info = soup.find_all("td", class_ = "dataset-details");
 	
-	informacoes = [{
-		'autor': info[0].next_element,
-		'mantenedor': info[1].next_element,
-		'cobertura_geografica': info[2].next_element,
-		'documentacao': info[3].next_element,
-		'frequencia_de_atualizacao': info[4].next_element,
-		'granularidade_geografica': info[5].next_element,
-		'granularidade_temporal': info[6].next_element,
-		'vcge': info[7].next_element
-	}]
+	informacoes = {
+		'informações' : {
+			'autor': info[0].next_element,
+			'mantenedor': info[1].next_element,
+			'cobertura_geografica': info[2].next_element,
+			'documentacao': info[3].next_element,
+			'frequencia_de_atualizacao': info[4].next_element,
+			'granularidade_geografica': info[5].next_element,
+			'granularidade_temporal': info[6].next_element,
+			'vcge': info[7].next_element
+		}
+	}
+
+	print('informações', type(informacoes))
 
 	resource_item = soup.find("li", class_ = "resource-item")
 	csv_url = resource_item.find(class_ = "resource-url-analytics")["href"]
 
 	csv = requests.get(csv_url).content
 
-	df = pd.read_csv(io.StringIO(csv.decode('latin1')))
+	df = pd.read_csv(io.StringIO(csv.decode('latin1')), error_bad_lines=False, sep=',')
+
+	tipos = df.dtypes 
+
+	print('Tipos:', tipos)
+	print('Names:', df.names)
+	
+
+	# Enviando os dados para o Firebase
+	#results = db.child(titulo).push(tipos_json)
+
+	# print('Título:', titulo)
+	#print('DataFrame:', type(df.dtypes))
+	#print('Results Firebase:', results)
+	#print('Cabeçalho:', df.head(2))
 
 #print(links_lista)
 #print(titulos_lista)
