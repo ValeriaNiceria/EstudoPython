@@ -4,6 +4,17 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import io
+import pyrebase
+
+
+config = {
+  "apiKey": "AIzaSyDbFkmBkwwL7ZY4ZIIzlBbuF_s4mvn-tiQ",
+  "authDomain": "previdencia-projeto.firebaseapp.com",
+  "databaseURL": "https://previdencia-projeto.firebaseio.com",
+  "storageBucket": "previdencia-projeto.appspot.com"
+}
+firebase = pyrebase.initialize_app(config)
+
 
 links_lista = []
 titulos_lista = []

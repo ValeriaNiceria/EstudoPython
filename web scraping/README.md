@@ -40,3 +40,7 @@ pip3 install -r requirements.txt
 pip3 install --upgrade pandas
 ```
 
+### Instalando o firebase
+```sh
+pip3 install pyrebase
+```
