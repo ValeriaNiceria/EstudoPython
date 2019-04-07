@@ -23,9 +23,7 @@ for page in range(1, 7):
 	url = "http://dadosabertos.dataprev.gov.br/dataset?tags=Previd%C3%AAncia+Social&page=" + str(page)
 	req = requests.get(url)	
 
-
 	soup = BeautifulSoup(req.text, 'lxml')
-
 	
 	for link in soup.find_all('h3', class_ = "dataset-heading"):
 		links_lista.append(link.a['href'])
@@ -40,6 +38,10 @@ for i in range(len(links_lista)):
 	titulo = titulos_lista[i]
 	titulo = titulo.replace('.', '-')
 	titulo = titulo.replace('/', '-')
+	titulo = titulo.replace('$', '')
+	titulo = titulo.replace('#', '')	
+	titulo = titulo.replace('[', '')
+	titulo = titulo.replace(']', '')
 	print('Título:', titulo)
 
 	soup = BeautifulSoup(req.text, 'lxml')
@@ -64,7 +66,7 @@ for i in range(len(links_lista)):
 	}
 
 	# Enviando os dados para o Firebase
-	# db.child(titulo).set(informacoes)
+	db.child(titulo).set(informacoes)
 
 
 	resource_item = soup.find("li", class_ = "resource-item")
@@ -78,7 +80,7 @@ for i in range(len(links_lista)):
 
 		if (df[coluna].dtype == 'float64'):
 			# Se o tipo da coluna for float
-			print('Describe:', df[coluna].describe().transpose().head())
+			# print('Describe:', df[coluna].describe().transpose().head())
 			desc_index = df[coluna].describe().index
 			desc_value = df[coluna].describe().tolist()
 
@@ -88,6 +90,10 @@ for i in range(len(links_lista)):
 
 			coluna = coluna.replace('.', '-')
 			coluna = coluna.replace('/', '-')
+			coluna = coluna.replace('$', 'S')
+			coluna = coluna.replace('#', '')	
+			coluna = coluna.replace('[', '')
+			coluna = coluna.replace(']', '')
 			dados_coluna = {
 				'coluna': coluna,
 				'tipo': 'float',
@@ -95,7 +101,7 @@ for i in range(len(links_lista)):
 			}
 
 			# Enviando os dados para o Firebase
-			# db.child(titulo + '/variaveis/' + coluna).set(dados_coluna)
+			db.child(titulo + '/variaveis/' + coluna).set(dados_coluna)
 		elif (df[coluna].dtype == 'int64'):
 			# Se o tipo da coluna for inteiro
 			desc_index = df[coluna].describe().index
@@ -107,6 +113,10 @@ for i in range(len(links_lista)):
 
 			coluna = coluna.replace('.', '-')
 			coluna = coluna.replace('/', '-')
+			coluna = coluna.replace('$', 'S')
+			coluna = coluna.replace('#', '')	
+			coluna = coluna.replace('[', '')
+			coluna = coluna.replace(']', '')
 			dados_coluna = {
 				'coluna': coluna,
 				'tipo': 'int',
@@ -114,27 +124,67 @@ for i in range(len(links_lista)):
 			}
 
 			# Enviando os dados para o Firebase
-			# db.child(titulo + '/variaveis/' + coluna).set(dados_coluna)
+			db.child(titulo + '/variaveis/' + coluna).set(dados_coluna)
 		elif (df[coluna].dtype == 'object'):
-			# print('Tipo:', df[coluna].dtype)
-			# print('*** # String # ***')
-			# print('Coluna:', coluna)
-			# print('Count:', df[coluna].value_counts())
 
-			print('*** # object # ***')
+			coluna_em_lista = df[coluna].tolist();
+			
+			try:
+				coluna_tratada = list(map(lambda x: x.replace('-', ''), coluna_em_lista))
+			except AttributeError:
+				coluna_tratada = coluna_tratada
+
+			try:
+				coluna_tratada = list(map(lambda x: x.replace('R$', ''), coluna_tratada))
+			except AttributeError:
+				coluna_tratada = coluna_tratada
+
+			try:
+				coluna_tratada = list(map(lambda x: x.replace('nan', ''), coluna_tratada))
+			except AttributeError:
+				coluna_tratada = coluna_tratada 
+
+			try:
+				coluna_tratada = list(map(float, coluna_tratada))
+				teste = pd.DataFrame(coluna_tratada)
+				print('Float:', teste)
+			except ValueError:
+
+				try:
+					value_counts_index = list(map(lambda x: x.replace('.', ' '), df[coluna].value_counts().index))
+				except AttributeError:
+					value_counts_index = df[coluna].value_counts().index
+
+				try:
+					value_counts_value = list(map(lambda x: x.replace('.', ' '), df[coluna].value_counts().tolist()))
+				except AttributeError:
+					value_counts_value = df[coluna].value_counts().tolist()
+				
+				data_coluna = {}
+				for v_i in range(len(value_counts_index)):
+					data_coluna[value_counts_index[v_i]] = value_counts_value[v_i]
+
+				print('data_coluna:', data_coluna)
+
+				coluna = coluna.replace('.', '-')
+				coluna = coluna.replace('/', '-')
+				coluna = coluna.replace('$', 'S')
+				coluna = coluna.replace('#', '')	
+				coluna = coluna.replace('[', '')
+				coluna = coluna.replace(']', '')
+				dados_coluna = {
+					'coluna': coluna,
+					'tipo': 'string',
+					'dados_coluna': data_coluna
+				}
+
+				# Enviando os dados para o Firebase
+				db.child(titulo + '/variaveis/' + coluna).set(dados_coluna)
+
+			#print('*** # object # ***')
 			# valores = df[coluna].astype('float64', errors='ignore')
 			# print('Index:', valores.value_counts().index)
 			# print('Valor', valores.describe().tolist())
-
-			# dados_coluna = {}
-			# for d_i in range(len(desc_index)):
-			# 	dados_coluna[desc_index[d_i]] = desc_value[d_i]
-
-			# dados = {
-			# 	'tipo': df[coluna].dtype,
-			# 	'dados_coluna': dados_coluna
-			# }
-			# print('dados:', dados)
 
 #print(links_lista)
 #print(titulos_lista)
