@@ -1,6 +1,7 @@
 beautifulsoup4==4.7.1
 certifi==2019.3.9
 chardet==3.0.4
+firebase==3.0.1
 gcloud==0.17.0
 googleapis-common-protos==1.5.9
 httplib2==0.12.1

@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import io
-import pyrebase
+from firebase import Firebase
 
 
 config = {
@@ -13,7 +13,7 @@ config = {
   "databaseURL": "https://previdencia-projeto.firebaseio.com",
   "storageBucket": "previdencia-projeto.appspot.com"
 }
-firebase = pyrebase.initialize_app(config)
+firebase = Firebase(config)
 db = firebase.database()
 
 
@@ -30,7 +30,7 @@ for page in range(1, 7):
 		titulos_lista.append(link.a.text)
 
 
-
+num_xml = 0
 for i in range(len(links_lista)):
 	url = "http://dadosabertos.dataprev.gov.br" + links_lista[i]
 	req = requests.get(url)
@@ -42,6 +42,7 @@ for i in range(len(links_lista)):
 	titulo = titulo.replace('#', '')	
 	titulo = titulo.replace('[', '')
 	titulo = titulo.replace(']', '')
+	titulo = titulo.replace(' ', '_')
 	print('Título:', titulo)
 
 	soup = BeautifulSoup(req.text, 'lxml')
@@ -74,7 +75,19 @@ for i in range(len(links_lista)):
 	csv = requests.get(csv_url).content
 	df = pd.read_csv(io.StringIO(csv.decode('latin1')), error_bad_lines=False, sep=',')
 
+	# Verificando a quantidade de arquivo com a extensão xml
+	if 'format=xml' in csv_url:
+		num_xml = num_xml + 1
+		
+
+	print('Número de arquivos xml:', num_xml)
+	print('url arquivo:', csv_url)
+
 	colunas = df.columns.values
+
+	# Verificando se dentro da coluna possui a tag html
+	if colunas[0] == '<HTML>':
+		continue
 
 	for coluna in colunas:
 
@@ -94,6 +107,7 @@ for i in range(len(links_lista)):
 			coluna = coluna.replace('#', '')	
 			coluna = coluna.replace('[', '')
 			coluna = coluna.replace(']', '')
+			coluna = coluna.replace(' ', '_')
 			dados_coluna = {
 				'coluna': coluna,
 				'tipo': 'float',
@@ -117,6 +131,7 @@ for i in range(len(links_lista)):
 			coluna = coluna.replace('#', '')	
 			coluna = coluna.replace('[', '')
 			coluna = coluna.replace(']', '')
+			coluna = coluna.replace(' ', '_')
 			dados_coluna = {
 				'coluna': coluna,
 				'tipo': 'int',
@@ -147,7 +162,7 @@ for i in range(len(links_lista)):
 			try:
 				coluna_tratada = list(map(float, coluna_tratada))
 				teste = pd.DataFrame(coluna_tratada)
-				print('Float:', teste)
+				# print('Float:', teste)
 			except ValueError:
 
 				try:
@@ -164,7 +179,7 @@ for i in range(len(links_lista)):
 				for v_i in range(len(value_counts_index)):
 					data_coluna[value_counts_index[v_i]] = value_counts_value[v_i]
 
-				print('data_coluna:', data_coluna)
+				# print('data_coluna:', data_coluna)
 
 				coluna = coluna.replace('.', '-')
 				coluna = coluna.replace('/', '-')
@@ -172,6 +187,7 @@ for i in range(len(links_lista)):
 				coluna = coluna.replace('#', '')	
 				coluna = coluna.replace('[', '')
 				coluna = coluna.replace(']', '')
+				coluna = coluna.replace(' ', '_')
 				dados_coluna = {
 					'coluna': coluna,
 					'tipo': 'string',
