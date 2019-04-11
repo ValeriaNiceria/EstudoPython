@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import io
 from firebase import Firebase
+from unidecode import unidecode
 
 
 config = {
@@ -31,6 +32,7 @@ for page in range(1, 7):
 
 
 num_xml = 0
+lista_xml = []
 for i in range(len(links_lista)):
 	url = "http://dadosabertos.dataprev.gov.br" + links_lista[i]
 	req = requests.get(url)
@@ -43,6 +45,7 @@ for i in range(len(links_lista)):
 	titulo = titulo.replace('[', '')
 	titulo = titulo.replace(']', '')
 	titulo = titulo.replace(' ', '_')
+	titulo = unidecode(titulo)
 	print('Título:', titulo)
 
 	soup = BeautifulSoup(req.text, 'lxml')
@@ -73,15 +76,18 @@ for i in range(len(links_lista)):
 	resource_item = soup.find("li", class_ = "resource-item")
 	csv_url = resource_item.find(class_ = "resource-url-analytics")["href"]
 	csv = requests.get(csv_url).content
-	df = pd.read_csv(io.StringIO(csv.decode('latin1')), error_bad_lines=False, sep=',')
 
 	# Verificando a quantidade de arquivo com a extensão xml
-	if 'format=xml' in csv_url:
+	if '/formato=xml' in csv_url:
 		num_xml = num_xml + 1
-		
+		lista_xml.append(csv_url)
+		print('lista_xml:', lista_xml)
+		continue
 
 	print('Número de arquivos xml:', num_xml)
 	print('url arquivo:', csv_url)
+
+	df = pd.read_csv(io.StringIO(csv.decode('latin1')), error_bad_lines=False, sep=',')
 
 	colunas = df.columns.values
 
@@ -91,6 +97,8 @@ for i in range(len(links_lista)):
 
 	for coluna in colunas:
 
+		print('Tipo:', df[coluna].dtype) 
+
 		if (df[coluna].dtype == 'float64'):
 			# Se o tipo da coluna for float
 			# print('Describe:', df[coluna].describe().transpose().head())
@@ -99,7 +107,16 @@ for i in range(len(links_lista)):
 
 			data_coluna = {}
 			for d_i in range(len(desc_index)):
-				data_coluna[desc_index[d_i]] = desc_value[d_i]
+				label_coluna = value_counts_index[v_i]
+				label_coluna = label_coluna.replace('.', '-')
+				label_coluna = label_coluna.replace('/', '-')
+				label_coluna = label_coluna.replace('$', 'S')
+				label_coluna = label_coluna.replace('#', '')	
+				label_coluna = label_coluna.replace('[', '')
+				label_coluna = label_coluna.replace(']', '')
+				label_coluna = label_coluna.replace(' ', '_')
+				label_coluna = unidecode(label_coluna)
+				data_coluna[label_coluna] = value_counts_value[v_i]
 
 			coluna = coluna.replace('.', '-')
 			coluna = coluna.replace('/', '-')
@@ -108,6 +125,7 @@ for i in range(len(links_lista)):
 			coluna = coluna.replace('[', '')
 			coluna = coluna.replace(']', '')
 			coluna = coluna.replace(' ', '_')
+			coluna = unidecode(coluna)
 			dados_coluna = {
 				'coluna': coluna,
 				'tipo': 'float',
@@ -123,7 +141,16 @@ for i in range(len(links_lista)):
 
 			data_coluna = {}
 			for d_i in range(len(desc_index)):
-				data_coluna[desc_index[d_i]] = desc_value[d_i]
+				label_coluna = value_counts_index[v_i]
+				label_coluna = label_coluna.replace('.', '-')
+				label_coluna = label_coluna.replace('/', '-')
+				label_coluna = label_coluna.replace('$', 'S')
+				label_coluna = label_coluna.replace('#', '')	
+				label_coluna = label_coluna.replace('[', '')
+				label_coluna = label_coluna.replace(']', '')
+				label_coluna = label_coluna.replace(' ', '_')
+				label_coluna = unidecode(label_coluna)
+				data_coluna[label_coluna] = value_counts_value[v_i]
 
 			coluna = coluna.replace('.', '-')
 			coluna = coluna.replace('/', '-')
@@ -132,6 +159,7 @@ for i in range(len(links_lista)):
 			coluna = coluna.replace('[', '')
 			coluna = coluna.replace(']', '')
 			coluna = coluna.replace(' ', '_')
+			coluna = unidecode(coluna)
 			dados_coluna = {
 				'coluna': coluna,
 				'tipo': 'int',
@@ -142,8 +170,15 @@ for i in range(len(links_lista)):
 			db.child(titulo + '/variaveis/' + coluna).set(dados_coluna)
 		elif (df[coluna].dtype == 'object'):
 
+			df[coluna] = df[coluna].astype(str)
+
 			coluna_em_lista = df[coluna].tolist();
 			
+			try:
+				coluna_tratada = list(map(lambda x: x.replace(',', '.'), coluna_em_lista))
+			except AttributeError:
+				coluna_tratada = coluna_tratada
+
 			try:
 				coluna_tratada = list(map(lambda x: x.replace('-', ''), coluna_em_lista))
 			except AttributeError:
@@ -177,7 +212,16 @@ for i in range(len(links_lista)):
 				
 				data_coluna = {}
 				for v_i in range(len(value_counts_index)):
-					data_coluna[value_counts_index[v_i]] = value_counts_value[v_i]
+					label_coluna = value_counts_index[v_i]
+					label_coluna = label_coluna.replace('.', '-')
+					label_coluna = label_coluna.replace('/', '-')
+					label_coluna = label_coluna.replace('$', 'S')
+					label_coluna = label_coluna.replace('#', '')	
+					label_coluna = label_coluna.replace('[', '')
+					label_coluna = label_coluna.replace(']', '')
+					label_coluna = label_coluna.replace(' ', '_')
+					label_coluna = unidecode(label_coluna)
+					data_coluna[label_coluna] = value_counts_value[v_i]
 
 				# print('data_coluna:', data_coluna)
 
@@ -188,6 +232,7 @@ for i in range(len(links_lista)):
 				coluna = coluna.replace('[', '')
 				coluna = coluna.replace(']', '')
 				coluna = coluna.replace(' ', '_')
+				coluna = unidecode(coluna)
 				dados_coluna = {
 					'coluna': coluna,
 					'tipo': 'string',
@@ -201,6 +246,8 @@ for i in range(len(links_lista)):
 			# valores = df[coluna].astype('float64', errors='ignore')
 			# print('Index:', valores.value_counts().index)
 			# print('Valor', valores.describe().tolist())
+
+print('lista_xml:', lista_xml)
 
 #print(links_lista)
 #print(titulos_lista)
