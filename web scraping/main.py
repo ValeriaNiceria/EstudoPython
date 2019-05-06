@@ -9,10 +9,10 @@ from unidecode import unidecode
 
 
 config = {
-  "apiKey": "AIzaSyDbFkmBkwwL7ZY4ZIIzlBbuF_s4mvn-tiQ",
-  "authDomain": "previdencia-projeto.firebaseapp.com",
-  "databaseURL": "https://previdencia-projeto.firebaseio.com",
-  "storageBucket": "previdencia-projeto.appspot.com"
+  "apiKey": "",
+  "authDomain": "",
+  "databaseURL": "",
+  "storageBucket": ""
 }
 firebase = Firebase(config)
 db = firebase.database()
