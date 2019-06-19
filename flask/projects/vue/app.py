@@ -1,11 +1,16 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return 'Hello world!'
+	return render_template('index.html')
 
 @app.route('/about')
 def about():
 	return 'About!'
+
+
+if __name__ == "__main__":
+	print("Servidor rodando...")
+	app.run(debug=True)
